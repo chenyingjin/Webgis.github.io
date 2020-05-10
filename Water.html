@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Water Recource</title>
+    <style>
+    
+      html,
+       body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #view1 {
+            font-size: 32px;
+            background-color:#B4CDCD ;
+            height: 10%;
+            width: 100%;
+        }
+
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 90%;
+            width: 100%;
+        }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.15/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.15/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Legend",
+        "esri/widgets/ScaleBar",
+        "esri/widgets/Search",
+        "esri/widgets/CoordinateConversion"
+   
+      ], function(Map, MapView, Featurelayer, Legend, ScaleBar, Search , CoordinateConversion ) {
+        var flayer = new Featurelayer({
+          url:
+            "http://www.arcgisonline.cn/server/rest/services/Hosted/%E4%B8%AD%E5%9B%BD%E5%90%84%E7%9C%81%E5%B9%B4%E6%B0%B4%E8%B5%84%E6%BA%90%E6%80%BB%E9%87%8F%E6%95%B0%E6%8D%AE/FeatureServer"
+        });
+
+        var map = new Map({
+          basemap: "topo",
+          layers: [flayer],
+          
+        });
+
+        var view = new MapView({
+          container: "viewDiv",
+          map: map,
+          zoom: 4,
+          center: [100, 35] // longitude, latitude
+        });
+
+        var legend = new Legend({
+          view: view,
+          layerInfos: [
+            {
+              layer: flayer,
+              title: "Water Resources"
+              
+            }
+          ]
+        });
+        view.ui.add(legend, "top-right");
+
+        var scaleBar = new ScaleBar({
+          view: view,
+          style: "ruler",
+          unit: "metric"
+        });
+
+        view.ui.add(scaleBar, {
+          position: "bottom-right"
+        });
+        const searchWidget = new Search({
+          view: view
+        });
+        view.ui.add(searchWidget, {
+          position: "top-right",
+          index: 4
+        });
+       
+   var ccWidget = new CoordinateConversion({
+          view: view
+        });
+
+        view.ui.add(ccWidget, "bottom-left");
+      });
+    </script>
+    
+    
+  </head>
+  
+  <body>
+   
+    <div id="view1" class="toplink" style="text-align:center"><a href="https://baike.baidu.com/item/%E6%B0%B4%E8%B5%84%E6%BA%90/326690?fr=aladdin">Water Resources of China</a></div>
+    <div id="viewDiv"></div>
+
+   
+  </body>
+</html>
